@@ -10,10 +10,11 @@ public class EquationSolver {
     private float a, b, c; //Holds the variables of the quadratic equation
     private float determinant; //Key part of the equation
 
-    public EquationSolver(float _a, float _b, float _c){
-        a = _a;
-        b = _b;
-        c = _c;
+    public EquationSolver(float[] numbers){
+        a = numbers[0];
+        b = numbers[1];
+        c = numbers[2];
+
         determinant = (b * b) - (4 * a * c); //b squared minus 4 a c
     }
 

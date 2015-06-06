@@ -2,10 +2,10 @@ package GUIFrontend;
 
 import MathematicalBackend.EquationSolver;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 /**
  * Created by MoloHunt on 28/05/15.
@@ -14,12 +14,8 @@ public class Main extends Frame implements ActionListener{
 
     public final String WINDOW_NAME = "Quadratic Equation";
 
-    private Label labelPromptA, labelPromptB, labelPromptC;
     private TextArea labelAnswer;
-    private TextField fieldA, fieldB, fieldC;
-    private Button buttonCompute;
-
-    private EquationSolver solver;
+    private TextField[] inputFields = new TextField[3];
 
     //First function called
     public static void main(String[] args) {
@@ -27,34 +23,25 @@ public class Main extends Frame implements ActionListener{
     }
 
     //Main constructor, creates the GUI window
-    public Main(){
+    private Main() {
         setLayout(new FlowLayout());
-        labelPromptA = new Label("AX^2 where A = ", Label.LEFT);
-        labelPromptA.setSize(115, 20);
-        add(labelPromptA);
 
-        fieldA = new TextField(10);
-        add(fieldA);
+        String[] labels = {"AX^2 where A = ", "BX where B = ", "C where C = "};
 
-        labelPromptB = new Label("BX  where B = ", Label.LEFT);
-        labelPromptB.setSize(115, 20);
-        add(labelPromptB);
+        for (int i = 0; i < inputFields.length; i++) {
+            Label label = new Label(labels[i], Label.LEFT);
 
-        fieldB = new TextField(10);
-        add(fieldB);
+            label.setSize(115, 20);
+            inputFields[i] = new TextField(10);
+            add(label);
+            add(inputFields[i]);
+        }
 
-        labelPromptC = new Label("C  where C = ", Label.LEFT);
-        labelPromptC.setSize(115, 20);
-        add(labelPromptC);
-
-        fieldC = new TextField(10);
-        add(fieldC);
-
-        buttonCompute = new Button("Compute Answer");
+        Button buttonCompute = new Button("Compute Answer");
         buttonCompute.addActionListener(this);
         add(buttonCompute);
 
-        labelAnswer = new TextArea("Hello World", 3, 20, TextArea.SCROLLBARS_NONE);
+        labelAnswer = new TextArea("", 3, 20, TextArea.SCROLLBARS_NONE);
         labelAnswer.setSize(220, 60);
         add(labelAnswer);
 
@@ -70,34 +57,22 @@ public class Main extends Frame implements ActionListener{
     //it check to see if all of the inputs are fine and then updates the label
     @Override
     public void actionPerformed(ActionEvent e) {
-        float a = 0, b = 0, c = 0;
-        boolean aCorrect, bCorrect, cCorrect;
-        try{
-            a = Float.parseFloat(fieldA.getText());
-            aCorrect = true;
-        }catch(Exception ex){
-            fieldA.setText("");
-            aCorrect = false;
+        float[] parsedNumbers = new float[3];
+        boolean[] parsedCorrectly = new boolean[parsedNumbers.length];
+
+        for (int i = 0; i < parsedNumbers.length; i++) {
+            try {
+                parsedNumbers[i] = Float.parseFloat(inputFields[i].getText());
+                parsedCorrectly[i] = true;
+            } catch (NumberFormatException ex) {
+                inputFields[i].setText("(Error)");
+                parsedCorrectly[i] = false;
+            }
         }
 
-        try{
-            b = Float.parseFloat(fieldB.getText());
-            bCorrect = true;
-        }catch(Exception ex){
-            fieldB.setText("");
-            bCorrect = false;
-        }
-
-        try{
-            c = Float.parseFloat(fieldC.getText());
-            cCorrect = true;
-        }catch(Exception ex){
-            fieldC.setText("");
-            cCorrect = false;
-        }
-
-        if(aCorrect && bCorrect && cCorrect){
-            solver = new EquationSolver(a, b, c);
+        //If all values in the parsedCorrectly array are true (meaning all numbers were parsed correctly)
+        if (Arrays.equals(parsedCorrectly, new boolean[] {true, true, true})) {
+            EquationSolver solver = new EquationSolver(parsedNumbers);
             labelAnswer.setText(solver.Solve());
         }
     }
