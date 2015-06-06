@@ -15,7 +15,7 @@ public class Main extends Frame implements ActionListener{
     public final String WINDOW_NAME = "Quadratic Equation";
 
     private TextArea labelAnswer;
-    private TextField fieldA, fieldB, fieldC;
+    private TextField[] inputFields = new TextField[3];
 
     //First function called
     public static void main(String[] args) {
@@ -25,26 +25,17 @@ public class Main extends Frame implements ActionListener{
     //Main constructor, creates the GUI window
     public Main() {
         setLayout(new FlowLayout());
-        Label labelPromptA = new Label("AX^2 where A = ", Label.LEFT);
-        labelPromptA.setSize(115, 20);
-        add(labelPromptA);
 
-        fieldA = new TextField(10);
-        add(fieldA);
+        String[] labels = {"AX^2 where A = ", "BX where B = ", "C where C = "};
 
-        Label labelPromptB = new Label("BX  where B = ", Label.LEFT);
-        labelPromptB.setSize(115, 20);
-        add(labelPromptB);
+        for (int i = 0; i < inputFields.length; i++) {
+            Label label = new Label(labels[i], Label.LEFT);
 
-        fieldB = new TextField(10);
-        add(fieldB);
-
-        Label labelPromptC = new Label("C  where C = ", Label.LEFT);
-        labelPromptC.setSize(115, 20);
-        add(labelPromptC);
-
-        fieldC = new TextField(10);
-        add(fieldC);
+            label.setSize(115, 20);
+            inputFields[i] = new TextField(10);
+            add(label);
+            add(inputFields[i]);
+        }
 
         Button buttonCompute = new Button("Compute Answer");
         buttonCompute.addActionListener(this);
@@ -68,14 +59,13 @@ public class Main extends Frame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         float[] parsedNumbers = new float[3];
         boolean[] parsedCorrectly = new boolean[parsedNumbers.length];
-        TextField[] textFields = {fieldA, fieldB, fieldC};
 
         for (int i = 0; i < parsedNumbers.length; i++) {
             try {
-                parsedNumbers[i] = Float.parseFloat(textFields[i].getText());
+                parsedNumbers[i] = Float.parseFloat(inputFields[i].getText());
                 parsedCorrectly[i] = true;
             } catch (NumberFormatException ex) {
-                textFields[i].setText("(Error)");
+                inputFields[i].setText("(Error)");
                 parsedCorrectly[i] = false;
             }
         }
