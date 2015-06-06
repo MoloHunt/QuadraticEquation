@@ -41,7 +41,7 @@ public class Main extends Frame implements ActionListener{
         buttonCompute.addActionListener(this);
         add(buttonCompute);
 
-        labelAnswer = new TextArea("Hello World", 3, 20, TextArea.SCROLLBARS_NONE);
+        labelAnswer = new TextArea("", 3, 20, TextArea.SCROLLBARS_NONE);
         labelAnswer.setSize(220, 60);
         add(labelAnswer);
 
