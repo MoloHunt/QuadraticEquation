@@ -2,7 +2,6 @@ package GUIFrontend;
 
 import MathematicalBackend.EquationSolver;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,12 +13,8 @@ public class Main extends Frame implements ActionListener{
 
     public final String WINDOW_NAME = "Quadratic Equation";
 
-    private Label labelPromptA, labelPromptB, labelPromptC;
     private TextArea labelAnswer;
     private TextField fieldA, fieldB, fieldC;
-    private Button buttonCompute;
-
-    private EquationSolver solver;
 
     //First function called
     public static void main(String[] args) {
@@ -27,30 +22,30 @@ public class Main extends Frame implements ActionListener{
     }
 
     //Main constructor, creates the GUI window
-    public Main(){
+    public Main() {
         setLayout(new FlowLayout());
-        labelPromptA = new Label("AX^2 where A = ", Label.LEFT);
+        Label labelPromptA = new Label("AX^2 where A = ", Label.LEFT);
         labelPromptA.setSize(115, 20);
         add(labelPromptA);
 
         fieldA = new TextField(10);
         add(fieldA);
 
-        labelPromptB = new Label("BX  where B = ", Label.LEFT);
+        Label labelPromptB = new Label("BX  where B = ", Label.LEFT);
         labelPromptB.setSize(115, 20);
         add(labelPromptB);
 
         fieldB = new TextField(10);
         add(fieldB);
 
-        labelPromptC = new Label("C  where C = ", Label.LEFT);
+        Label labelPromptC = new Label("C  where C = ", Label.LEFT);
         labelPromptC.setSize(115, 20);
         add(labelPromptC);
 
         fieldC = new TextField(10);
         add(fieldC);
 
-        buttonCompute = new Button("Compute Answer");
+        Button buttonCompute = new Button("Compute Answer");
         buttonCompute.addActionListener(this);
         add(buttonCompute);
 
@@ -97,7 +92,7 @@ public class Main extends Frame implements ActionListener{
         }
 
         if(aCorrect && bCorrect && cCorrect){
-            solver = new EquationSolver(a, b, c);
+            EquationSolver solver = new EquationSolver(a, b, c);
             labelAnswer.setText(solver.Solve());
         }
     }
