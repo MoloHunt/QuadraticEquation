@@ -23,7 +23,7 @@ public class Main extends Frame implements ActionListener{
     }
 
     //Main constructor, creates the GUI window
-    public Main() {
+    private Main() {
         setLayout(new FlowLayout());
 
         String[] labels = {"AX^2 where A = ", "BX where B = ", "C where C = "};
@@ -72,7 +72,7 @@ public class Main extends Frame implements ActionListener{
 
         //If all values in the parsedCorrectly array are true (meaning all numbers were parsed correctly)
         if (Arrays.equals(parsedCorrectly, new boolean[] {true, true, true})) {
-            EquationSolver solver = new EquationSolver(parsedNumbers[0], parsedNumbers[1], parsedNumbers[2]);
+            EquationSolver solver = new EquationSolver(parsedNumbers);
             labelAnswer.setText(solver.Solve());
         }
     }
