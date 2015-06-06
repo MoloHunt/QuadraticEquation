@@ -5,6 +5,7 @@ import MathematicalBackend.EquationSolver;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 /**
  * Created by MoloHunt on 28/05/15.
@@ -65,34 +66,23 @@ public class Main extends Frame implements ActionListener{
     //it check to see if all of the inputs are fine and then updates the label
     @Override
     public void actionPerformed(ActionEvent e) {
-        float a = 0, b = 0, c = 0;
-        boolean aCorrect, bCorrect, cCorrect;
-        try{
-            a = Float.parseFloat(fieldA.getText());
-            aCorrect = true;
-        }catch(Exception ex){
-            fieldA.setText("");
-            aCorrect = false;
+        float[] parsedNumbers = new float[3];
+        boolean[] parsedCorrectly = new boolean[parsedNumbers.length];
+        TextField[] textFields = {fieldA, fieldB, fieldC};
+
+        for (int i = 0; i < parsedNumbers.length; i++) {
+            try {
+                parsedNumbers[i] = Float.parseFloat(textFields[i].getText());
+                parsedCorrectly[i] = true;
+            } catch (NumberFormatException ex) {
+                textFields[i].setText("(Error)");
+                parsedCorrectly[i] = false;
+            }
         }
 
-        try{
-            b = Float.parseFloat(fieldB.getText());
-            bCorrect = true;
-        }catch(Exception ex){
-            fieldB.setText("");
-            bCorrect = false;
-        }
-
-        try{
-            c = Float.parseFloat(fieldC.getText());
-            cCorrect = true;
-        }catch(Exception ex){
-            fieldC.setText("");
-            cCorrect = false;
-        }
-
-        if(aCorrect && bCorrect && cCorrect){
-            EquationSolver solver = new EquationSolver(a, b, c);
+        //If all values in the parsedCorrectly array are true (meaning all numbers were parsed correctly)
+        if (Arrays.equals(parsedCorrectly, new boolean[] {true, true, true})) {
+            EquationSolver solver = new EquationSolver(parsedNumbers[0], parsedNumbers[1], parsedNumbers[2]);
             labelAnswer.setText(solver.Solve());
         }
     }
